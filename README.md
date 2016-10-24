@@ -7,13 +7,13 @@ This ansible script checks for some archived RDS MySQL tables, backs them up to 
 The system also sends an alert via AWS SNS service if the script fails at any point during the process. 
 
 ## **Requirements:** ##
-1. Packages:
+Packages:
 *  boto,
 *  ansible,
 *  mysql-client-5.7,
 *  mysql-client-core-5.7.
 
-2. AWS services:
+AWS services:
 *  aws account,
 *  RDS instance with MySql,
 *  S3 bucket created,
