@@ -8,16 +8,16 @@ The system also sends an alert via AWS SNS service if the script fails at any po
 
 ## **Requirements:** ##
 1. Packages:
-**  boto,
+*  boto,
 *  ansible,
 *  mysql-client-5.7,
-*  mysql-client-core-5.7,*
+*  mysql-client-core-5.7.
 
 2. AWS services:
-**  aws account,
+*  aws account,
 *  RDS instance with MySql,
 *  S3 bucket created,
-*  SNS topic for sms and email configured.*
+*  SNS topic for sms and email configured.
 
 
 ## **How to run the script (linux shell):** ##
