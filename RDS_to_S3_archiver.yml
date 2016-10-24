@@ -1,0 +1,5 @@
+---
+#
+# Archiving Old Tables in Database Project
+- include: rds.yml
+- include: s3.yml

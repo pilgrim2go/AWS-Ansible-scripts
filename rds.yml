@@ -1,0 +1,7 @@
+---
+# file: rds.yml
+- hosts: localhost
+  vars_files: [roles/common/vars/vars.yml]
+  roles:
+    - common
+    - rds

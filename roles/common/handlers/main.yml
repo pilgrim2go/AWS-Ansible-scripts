@@ -1,0 +1,22 @@
+---
+# handlers for sending SNS notification on events
+  - name: send email
+    sns:
+      msg: "Archiving completed."
+      email: "The archived RDS MySQL tables have been backed up to the AWS S3 bucket"
+      subject: "Backup complete!"
+      topic: "Backup"
+      aws_region: "us-west-2"
+      aws_access_key: "{{aws_access_key}}"
+      aws_secret_key: "{{aws_secret_key}}"
+    #ignore_errors: true
+
+  - name: send notification
+    sns:
+      msg: "An error occurred when running the play."
+      subject: "Error!"
+      topic: "Error"
+      aws_region: "us-west-2"
+      aws_access_key: "{{aws_access_key}}"
+      aws_secret_key: "{{aws_secret_key}}"
+    #ignore_errors: false

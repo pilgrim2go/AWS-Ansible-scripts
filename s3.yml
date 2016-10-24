@@ -1,0 +1,7 @@
+---
+#file: s3.yml
+- hosts: localhost
+  vars_files: [roles/common/vars/vars.yml]
+  roles:
+    - common
+    - s3

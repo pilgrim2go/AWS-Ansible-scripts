@@ -1,0 +1,48 @@
+---
+- block:
+  - name: Check for RDS MySQL tables
+    shell: >
+            "mysqldump {{db_name}} -h {{ RDS_database }} -u {{ master_user }} -p{{ master_pass}} $(mysql -D {{db_name}} -h {{ RDS_database }} -u {{ master_user }} -p{{ master_pass}} -Bse "show tables like 'ARCHIVE_%'") > /tmp/talatables.sql"
+    register: tables_dumped
+
+  - name: Check for dumped file
+    find: paths="/tmp/" patterns="talatable*" file_type=file
+    when: tables_dumped|success
+    register: dumps
+
+  - debug: msg="Files don't exist"
+    when: dumps.files == []
+    notify: send notification
+    changed_when: true
+
+  rescue:
+   - debug: msg="I encountered an error while checking for file"
+
+  ignore_errors: true
+
+
+- block:
+  - name: Delete dump file on local machine
+    file: path=/tmp/{{item}} state=absent
+    with_items: dumps.files
+
+  - name: Drop archived tables
+    shell: mysql -D {{db_name}} -h {{ RDS_database }} -u {{ master_user }} -p{{ master_pass}} -NB information_schema -e "select table_name from tables where table_name like 'ARCHIVE_%'" | xargs -I"{}" mysql -D {{db_name}} -h {{ RDS_database }} -u {{ master_user }} -p{{ master_pass}} -e "DROP TABLE {}"
+    when: archived|success
+    register: deleted
+
+  - debug: msg="Dropped archived tables"
+    when: deleted|success and archived|success
+    notify: send email
+    changed_when: true
+
+  - name: make sure all handlers run
+    meta: flush_handlers
+
+  rescue:
+   - debug: msg='i encountered an error when deleting the files'
+     notify: send notification
+     changed_when: true
+
+   - name: make sure all handlers run
+     meta: flush_handlers

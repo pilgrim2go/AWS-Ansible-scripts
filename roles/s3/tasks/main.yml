@@ -1,0 +1,29 @@
+---
+- block:
+  - name: Backup to s3
+    s3:
+     bucket={{aws_bucket}}
+     object="{{item.path}}"
+     src="{{item.path}}"
+     mode=put
+     aws_access_key={{aws_access_key}}
+     aws_secret_key={{aws_secret_key}}
+
+    with_items: dumps.files
+    register: archived
+
+  - debug: msg="tables succefully archived to S3"
+    when: archived|success
+
+  - debug: msg="table not archived due to error above"
+    when: archived|failed
+    notify: send notification
+    changed_when: true
+
+  - name: make sure all handlers run
+    meta: flush_handlers
+
+  rescue:
+   - debug: msg='I encountered an error when backing up'
+
+  #ignore_errors
