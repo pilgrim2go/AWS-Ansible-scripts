@@ -1,10 +1,10 @@
 ---
-devops_user: joe
-db_name: talatest
-master_user: joe
-master_pass: cls4o6q35lol
-aws_access_key: AKIAI6P7M7HVEPX6T5ZA
-aws_secret_key: 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
-aws_region: oregon
-aws_bucket: tala-archived-tables
-RDS_database: mytalainstance.c50rnnn63nos.us-west-2.rds.amazonaws.com
+devops_user: xxx
+db_name: xxxx
+master_user: xxx
+master_pass: xxx
+aws_access_key: xxxxx
+aws_secret_key: xxxxx
+aws_region: xxxx
+aws_bucket: xxxx
+RDS_database: xxxxx
